@@ -115,8 +115,6 @@
                 policyInfoSummary: policyInfoSummary,
                 policyInfoIstop: policyInfoIstop
             }
-            alert(id);
-            alert(policyInfoText);
             $.post("/dopolicy-edit", json, function (result) {
                 if (result.status == "true") {
                     location.href = "/policy-list";
