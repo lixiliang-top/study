@@ -8,12 +8,12 @@ import com.kgc.study.bean.ActivityInfo;
 import com.kgc.study.service.lixiliangService.jijunshuoService.ActivityInfoService;
 import com.kgc.study.studytravelcoach.loaliyun.Aliyun;
 import com.sun.org.apache.regexp.internal.RE;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -28,12 +28,16 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
+@Api(tags = "研学旅行后台新闻中心", description = "提供新闻信息管理")
 public class ActivityController {
     @Resource
     ActivityInfoService activityInfoService;
 
     //跳转研学旅行活动页面
-    @RequestMapping("/admin-role.html")
+//    @RequestMapping("/admin-role.html")
+    @ApiOperation("查询活动")
+    @GetMapping("/admin-role.html")
+    @ApiImplicitParam(name = "ActivityInfo", value = "ActivityInfo实体类", required = true)
     public String toActivityList(@RequestParam(value = "start", required = false, defaultValue = "") String start,
                                  @RequestParam(value = "end", required = false, defaultValue = "") String end,
                                  @RequestParam(value = "acInfoTitle", required = false, defaultValue = "") String acInfoTitle,
@@ -56,14 +60,18 @@ public class ActivityController {
 
 
     //跳转添加研学旅行活动页面
-    @RequestMapping("/activity-add.html")
+    @ApiOperation("跳转添加活动控制器")
+    @GetMapping("/activity-add.html")
+//    @RequestMapping("/activity-add.html")
     public String toActivityAdd() {
         return "activity-add";
     }
 
     //添加研学旅行活动控制器
+    @ApiOperation("添加活动控制器")
     @ResponseBody
-    @RequestMapping("/activityAdd")
+//    @RequestMapping("/activityAdd")
+    @PostMapping("/activityAdd")
     public Map<String, Object> activityAdd(ActivityInfo activityInfo) {
         Map<String, Object> map = new HashMap<>();
         activityInfo.setGmtCreate(new Date());
@@ -78,6 +86,7 @@ public class ActivityController {
     }
 
     //富文本编辑器上传图片
+    @ApiOperation("添加活动图片")
     @ResponseBody
     @RequestMapping("/activitysaveImg")
     public JSONObject saveImg(MultipartFile multipartFile) throws IOException {
@@ -96,7 +105,8 @@ public class ActivityController {
     /*
      * 根据id查询
      * */
-    @RequestMapping("/activity-edit/{id}")
+    @ApiOperation("根据id修改，得到回显数据")
+    @GetMapping("/activity-edit/{id}")
     public String activityEdit(@PathVariable String id, Model model) {
         ActivityInfo activityInfo = activityInfoService.selectById(Long.parseLong(id));
         model.addAttribute("activityInfo", activityInfo);
@@ -104,11 +114,12 @@ public class ActivityController {
     }
 
     //修改研学旅行活动控制器
+    @ApiOperation("修改活动信息")
     @ResponseBody
-    @RequestMapping("/activityUpd")
+    @PostMapping("/activityUpd")
     public Map<String, Object> activityUpd(ActivityInfo activityInfo) {
         Map<String, Object> map = new HashMap<>();
-        activityInfo.setGmtModified(new Date());
+        activityInfo.setGmtModified(new Date());//修改时间
         int insert = activityInfoService.update(activityInfo);
         if (insert > 0) {
             map.put("status", "true");
@@ -121,8 +132,9 @@ public class ActivityController {
     /*
      * 假删除
      * */
+    @ApiOperation("删除活动")
     @ResponseBody
-    @RequestMapping("/activityDel")
+    @PostMapping("/activityDel")
     public Map<String, Object> activityDel(Long id) {
         Map<String, Object> map = new HashMap<>();
         ActivityInfo activityInfo = new ActivityInfo();
@@ -138,8 +150,12 @@ public class ActivityController {
         return map;
     }
 
+    /*
+     *批量删除
+     * */
+    @ApiOperation("批量删除活动")
     @ResponseBody
-    @RequestMapping("/activityDelList")
+    @PostMapping("/activityDelList")
     public Map doNewsdelList(String gpId) {
         Map map = new HashMap();
         int i = activityInfoService.delactivityList(gpId);

@@ -65,6 +65,7 @@ public class PolicyInfoController {
     @ResponseBody
     @ApiImplicitParam(name = "PolicyInfo", value = "PolicyInfo实体类", required = true)
     public Map<String, Object> doPolicyEdit(PolicyInfo policyInfo, Model model) {
+        policyInfo.setGmtModified(new Date());
         int i = policyInfoService.updatePolicyInfo(policyInfo);
         Map<String, Object> map = new HashMap<>();
         if (i > 0) {
@@ -91,10 +92,12 @@ public class PolicyInfoController {
         policyInfo.setLogicDelete(0);
         int i = 0;
         i = policyInfoService.insertPolicyInfo(policyInfo);
+        System.out.println(i);
+        //测试结果大于0
         if (i > 0) {
-            map.put("status", true);
+            map.put("status", "true");
         } else {
-            map.put("status", false);
+            map.put("status", "false");
         }
         return map;
     }
@@ -129,18 +132,20 @@ public class PolicyInfoController {
         int i = policyInfoService.deletePolicyInfo(list);
         Map<String,Object> map=new HashMap<>();
         System.out.println(i);
+
         if (i > 0) {
-            map.put("status", true);
+            map.put("status", "true");
         } else {
-            map.put("status", false);
+            map.put("status", "false");
         }
         System.out.println(map);
         return map;
     }
 
-    @PostMapping("/policy-del-id")
+    @GetMapping("/policy-del-id")
     @ApiImplicitParam(name = "PolicyInfo", value = "PolicyInfo实体类", required = true)
     public String delPolicyInfoByid(Long id) {
+        //policy-del-id?id=6
         policyInfoService.deletePoolicyInfoById(id);
         return "redirect:/policy-list";
     }
