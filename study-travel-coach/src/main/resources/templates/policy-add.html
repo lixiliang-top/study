@@ -104,12 +104,12 @@
                 policyInfoText: policyInfoText,
                 policyInfoSource: policyInfoSource,
                 policyInfoAuthor: policyInfoAuthor,
-                policyInfoKeyWord: policyInfoKeyWord,
                 policyInfoSummary: policyInfoSummary,
+                policyInfoKeyWord: policyInfoKeyWord,
                 policyInfoIstop: policyInfoIstop
             }
             $.post("/dopolicy-add", json, function (result) {
-                if (result.status == "true") {
+                if (result.status=="true") {
                     location.href = "/policy-list";
                 } else {
                     alert("添加失败")

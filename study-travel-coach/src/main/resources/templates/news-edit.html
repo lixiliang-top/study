@@ -55,10 +55,10 @@
 
                 <div class="form-group">
                     <label>是否置顶该新闻:</label>
-                    <select class="form-control" name="newsIstop" style="display: list-item">
-                        <option th:selected="${newsInfo.newsIstop==0}">请选择</option>
-                        <option th:selected="${newsInfo.newsIstop==2}">是</option>
-                        <option th:selected="${newsInfo.newsIstop==1}">否</option>
+                    <select class="form-control newsIstop" name="newsIstop" style="display: list-item">
+                        <option value="-1" th:selected="${newsInfo.newsIstop==-1}">请选择</option>
+                        <option value="1" th:selected="${newsInfo.newsIstop==1}">是</option>
+                        <option value="0" th:selected="${newsInfo.newsIstop==0}">否</option>
                     </select>
                 </div>
             </form>
@@ -84,12 +84,7 @@
                 var newsInfoText = editor.txt.html();
                 var newsInfoSource = $("#source").val();
                 var newsInfoAuthor = $("#author").val();
-                var newsIstop = $("#newsIstop").val();
-                console.log(newsInfoTitle)
-                console.log(newsInfoText)
-                console.log(newsInfoSource)
-                console.log(newsInfoAuthor)
-                console.log(newsIstop)
+                var newsIstop = $(".newsIstop").val();
                 var json = {
                     id : id,
                     newsInfoTitle : newsInfoTitle,
@@ -98,7 +93,6 @@
                     newsInfoAuthor : newsInfoAuthor,
                     newsIstop : newsIstop
                 }
-                alert(1)
                 $.post("/news-edit-upd",json,function (result) {
                     if(result.status=="true"){
                         location.href="/news-list";

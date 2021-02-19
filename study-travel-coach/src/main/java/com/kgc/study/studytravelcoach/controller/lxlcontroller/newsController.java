@@ -109,11 +109,7 @@ public class newsController {
         Map<String,Object> map = new HashMap<>();
         newsInfo.setGmtCreate(new Date());
         Integer newsInfoClickCount = newsInfo.getNewsInfoClickCount();
-        if (newsInfoClickCount.equals("")){
-            newsInfoClickCount = a;
-        }else{
-            newsInfo.setNewsInfoClickCount(newsInfoClickCount++);
-        }
+        newsInfo.setNewsInfoClickCount(0);
         System.out.println(newsInfoClickCount);
         newsInfo.setLogicDelete(0);
         int i = newsService.insNews(newsInfo);
@@ -150,6 +146,7 @@ public class newsController {
     @ApiImplicitParam(name = "NewsInfo",value = "NewsInfo实体类",required = true)
     public Map<String,Object> doNewsUpd(NewsInfo newsInfo){
         Map<String,Object> map = new HashMap<>();
+        newsInfo.setGmtModified(new Date());
         int i = newsService.updNewsAll(newsInfo);
         if (i>0){
             map.put("status", "true");

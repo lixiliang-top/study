@@ -296,7 +296,7 @@
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       </if>
       <if test="gmtModified != null" >
-        " gmt_modified" = #{gmtModified,jdbcType=TIMESTAMP},
+        gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
       </if>
       <if test="newsInfoClickCount != null" >
         news_info_click_count = #{newsInfoClickCount,jdbcType=INTEGER},

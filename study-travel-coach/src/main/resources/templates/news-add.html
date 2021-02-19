@@ -91,7 +91,6 @@
                         newsInfoAuthor : newsInfoAuthor,
                         newsIstop : newsIstop
                     }
-                    alert(1)
                     $.post("/news-add-ins",json,function (result) {
                         if(result.status=="true"){
                             location.href="/news-list";
